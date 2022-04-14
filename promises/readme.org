@@ -1,0 +1,170 @@
+#+title: JavaScript Promise and Promise Chaining
+* Contenido                                                             :TOC:
+- [[#promise][Promise]]
+  - [[#example-1-program-with-a-promise][Example 1: Program with a Promise]]
+- [[#javascript-promise-chaining][JavaScript Promise Chaining]]
+  - [[#example-2-chaining-the-promise-with-then][Example 2: Chaining the Promise with then()]]
+- [[#javascript-catch-method][Javascript catch() method]]
+- [[#javascript-promise-versus-callback][JavaScript Promise Versus Callback]]
+  - [[#js-promise][JS Promise]]
+  - [[#js-callback][JS Callback]]
+- [[#js-finally-method][JS finally() method]]
+
+* Promise 
+#+begin_src js :tangle  1_create.js :exports results
+let promise = new Promise(function(resolve, reject){
+     //do something
+});
+#+end_src
+    
+** Example 1: Program with a Promise
+#+begin_src js  :exports both :tangle example1.js
+const count = true;
+
+let countValue = new Promise(function (resolve, reject) {
+    if (count) {
+        resolve("There is a count value.");
+    } else {
+        reject("There is no count value");
+    }
+});
+
+console.log(countValue);
+#+end_src
+
+#+RESULTS:
+: Promise { 'There is a count value.' }
+
+
+#+DOWNLOADED: file:///home/darycc/Pictures/promises.png @ 2022-07-12 01:20:47
+[[file:Promise/2022-07-12_01-20-47_promises.png]]
+* JavaScript Promise Chaining
+Promises are useful when you have to handle more than one asynchronous task, one
+after another. For that, we use promise chaining.
+
+You can perform an operation after a promise is resolved using methods ~then()~,
+~catch()~ and ~finally()~.
+
+The syntax of then() method is:
+#+begin_src js
+promiseObject.then(onFulfilled, onRejected);
+#+end_src
+** Example 2: Chaining the Promise with then()
+#+begin_src js :exports both :tangle  2_then.js
+  // returns a promise
+  let countValue = new Promise(function (resolve, reject) {
+    resolve("Promise resolved");
+  });
+
+  // executes when promise is resolved successfully
+
+  countValue
+    .then(function successValue(result) {
+      console.log(result);
+    })
+
+    .then(function successValue1() {
+      console.log("You can call multiple functions this way.");
+    });
+#+end_src
+
+#+RESULTS:
+: undefinedPromise resolved
+: You can call multiple functions this way.
+In the above program, the ~then(~) method is used to chain the functions to the
+promise. The ~then()~ method is called when the promise is resolved successfully.
+
+You can chain multiple ~then()~ methods with the promise.
+* Javascript catch() method
+The ~catch()~ method is used with the callback when the promise is rejected or if
+an error occurs. For example,
+#+begin_src js :exports both :tangle 3_catch.js
+    // returns a promise
+  let countValue = new Promise(function (resolve, reject) {
+     reject('Promise rejected'); 
+  });
+
+  // executes when promise is resolved successfully
+  countValue.then(
+      function successValue(result) {
+          console.log(result);
+      },
+   )
+
+  // executes if there is an error
+  .catch(
+      function errorValue(result) {
+          console.log(result);
+      }
+  );
+#+end_src
+
+#+RESULTS:
+: Promise rejected
+In the above program, the promise is rejected. And the ~catch()~ method is used
+with a promise to handle the error.
+
+#+DOWNLOADED: file:///home/darycc/Pictures/catch.png @ 2022-07-14 01:29:19
+[[file:Javascript_catch()_method/2022-07-14_01-29-19_catch.png]]
+* JavaScript Promise Versus Callback
+Promises are similar to callback functions in a sense that they both can be used
+to handle asynchronous tasks.
+
+JavaScript callback functions can also be used to perform synchronous tasks.
+
+Their differences can be summarized in the following points:
+** JS Promise
+1. The syntax is user-friendly and easy to read.
+2. Error handling is easier to manage.
+#+begin_src js
+
+api().then(function(result) {
+    return api2() ;
+}).then(function(result2) {
+    return api3();
+}).then(function(result3) {
+    // do work
+}).catch(function(error) {
+    //handle any error that may occur before this point 
+});
+#+end_src
+** JS Callback
+1. The syntax is difficult to understand.
+2. Error handling may be hard to manage.
+#+begin_src js
+
+api(function(result){
+    api2(function(result2){
+        api3(function(result3){
+             // do work
+            if(error) {
+                // do something
+            }
+            else {
+                // do something
+            }
+        });
+    });
+});
+#+end_src
+* JS finally() method
+You can also use the ~finally()~ method with promises. The ~finally()~ method gets
+executed when the promise is either resolved successfully or rejected. For
+example,
+#+begin_src js :tangle 4_finally.js :exports both
+// returns a promise
+let countValue = new Promise(function (resolve, reject) {
+    // could be resolved or rejected   
+    resolve('Promise resolved'); 
+});
+
+// add other blocks of code
+countValue.finally(
+    function greet() {
+        console.log('This code is executed.');
+    }
+);
+#+end_src
+
+#+RESULTS:
+: This code is executed.

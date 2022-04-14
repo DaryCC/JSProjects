@@ -1,10 +1,20 @@
-// 'use strict';
-const sacha={
-    nombrea: 'Dary',
-    saludar: function(){
-        console.log(`Hola, me llamo ${this.nombrea}!`);
-        console.log(this);
-    }
+let proto = {
+    whoami() { console.log('I am proto'); } 
 };
 
-const saludar=sacha.saludar.call({nombrea:"Dary"});
+let obj = { 
+    whoami() { 
+        super.whoami();
+        console.log('I am obj'); 
+    } 
+};
+
+console.log("this is prototype of");
+console.log( Object.getPrototypeOf( obj ) );
+//{}
+Object.setPrototypeOf( obj, proto );
+
+console.log("this is whoami");
+obj.whoami();
+// I am proto
+// I am obj

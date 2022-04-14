@@ -1,5 +1,6 @@
 # Object file
 *.o
+*log
 *.vscode
 # Ada Library Information
 *.ali
