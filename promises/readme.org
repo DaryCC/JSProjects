@@ -69,7 +69,7 @@ promiseObject.then(onFulfilled, onRejected);
 #+end_src
 
 #+RESULTS:
-: undefinedPromise resolved
+: Promise resolved
 : You can call multiple functions this way.
 In the above program, the ~then(~) method is used to chain the functions to the
 promise. The ~then()~ method is called when the promise is resolved successfully.
