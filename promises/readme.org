@@ -9,6 +9,7 @@
   - [[#js-promise][JS Promise]]
   - [[#js-callback][JS Callback]]
 - [[#js-finally-method][JS finally() method]]
+  - [[#ejemplo-async][Ejemplo async]]
 
 * Promise 
 #+begin_src js :tangle  1_create.js :exports results
@@ -147,6 +148,23 @@ api(function(result){
     });
 });
 #+end_src
+#+begin_src js :tangle callback.js :exports both
+
+  const operation = (numero1,numero2, op)=>{
+    return op(numero1,numero2);
+  }
+
+
+  console.log(operation(1,2,(a,b)=>a+b));
+  console.log(operation(1,2,(a,b)=>a-b));
+  console.log(operation(1,2,(a,b)=>a*b));
+#+end_src
+
+#+RESULTS:
+: 3
+: -1
+: 2
+
 * JS finally() method
 You can also use the ~finally()~ method with promises. The ~finally()~ method gets
 executed when the promise is either resolved successfully or rejected. For
@@ -168,3 +186,28 @@ countValue.finally(
 
 #+RESULTS:
 : This code is executed.
+** Ejemplo async
+
+#+begin_src js :tangle example_2_async.js :exports both
+const doAsyncStuffWithPromises = (numero1, numero2) => {
+  let resultado = numero1 + numero2
+
+  return new Promise(resolve => {
+    setTimeout(() => resolve(resultado), 1000)
+  }, reject => {
+    reject("Operación fallida")
+  });
+}
+
+
+doAsyncStuffWithPromises(1, 3)
+  .then(resultado => console.log(resultado))
+  .catch(
+    function mensajeDeError(mensaje) {
+      console.log(mensaje);
+    }
+  )
+#+end_src
+
+#+RESULTS:
+: 4
